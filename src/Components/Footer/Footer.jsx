@@ -1,5 +1,7 @@
 export const Footer = () => {
   return (
-    <div>Footer</div>
-  )
-}
+    <div className="bg-blue-500 py-4">
+      <h1 className="text-center text-lg font-semibold text-white">All Copyright is reserved by Task-Management-System</h1>
+    </div>
+  );
+};
