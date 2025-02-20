@@ -8,7 +8,7 @@ import Loading from "../Loading/Loading";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const TaskBoard = () => {
-  const { user } = useContext(AuthContext);
+  const { user, successfulToast } = useContext(AuthContext);
   const [tasks, setTasks] = useState({
     todo: [],
     inProgress: [],
@@ -31,9 +31,9 @@ const TaskBoard = () => {
 
   useEffect(() => {
     const groupedTasks = {
-      todo: response?.filter((task) => task.category === "To-Do"),
-      inProgress: response?.filter((task) => task.category === "In Progress"),
-      done: response?.filter((task) => task.category === "Done"),
+      todo: response?.filter((task) => task.category === "todo"),
+      inProgress: response?.filter((task) => task.category === "inProgress"),
+      done: response?.filter((task) => task.category === "done"),
     };
 
     setTasks(groupedTasks);
@@ -70,10 +70,17 @@ const TaskBoard = () => {
         [destination.droppableId]: destinationTasks,
       }));
 
-      // Update task category in the database
-      await api.put(`/tasks/${movedTask._id}`, {
-        category: destination.droppableId,
-      });
+      const category = destination.droppableId;
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API}/tasks/${movedTask._id}`,
+        { category }
+      );
+
+      if (data.modifiedCount) {
+        successfulToast(`${movedTask.title} is in ${category}`);
+      }
+      refetch();
+     
     }
   };
   if (isLoading) return <Loading></Loading>;

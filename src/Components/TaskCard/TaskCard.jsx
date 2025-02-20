@@ -51,7 +51,7 @@ const TaskCard = ({ task, index, id, refetch }) => {
     );
 
     if (data.modifiedCount) {
-      successfulToast("Task is updated");
+      successfulToast(`Task ${title} is updated`);
     }
     refetch();
     e.target.reset();
@@ -103,9 +103,9 @@ const TaskCard = ({ task, index, id, refetch }) => {
                 className="select select-bordered w-full"
                 required
               >
-                <option value="To-Do">To-Do</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Done">Done</option>
+                <option value="toDo">To-do</option>
+                <option value="inProgress">In Progress</option>
+                <option value="done">Done</option>
               </select>
               <div className="modal-action">
                 <button
@@ -140,9 +140,7 @@ const TaskCard = ({ task, index, id, refetch }) => {
             <p className="text-sm text-gray-600 text-white">
               {task.description}
             </p>
-            <p className="text-xs font-semibold text-yellow-300">
-              {task.category}
-            </p>
+
             <div className="flex justify-between items-center">
               <div className="text-white text-sm">
                 {format(new Date(task.timestamp), "dd / MM / yyyy")}

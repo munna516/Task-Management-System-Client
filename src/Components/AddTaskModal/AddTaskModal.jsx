@@ -15,13 +15,13 @@ const AddTaskModal = ({ refetch }) => {
       email,
       title,
       description,
-      category: "To-Do",
+      category: "todo",
     };
     const response = await axios.post(
       `${import.meta.env.VITE_API}/tasks`,
       newTask
     );
-    refetch();
+    refetch()
     if (response.data.insertedId) {
       successfulToast("Task is Added");
     }
