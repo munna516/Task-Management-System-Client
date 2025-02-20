@@ -60,7 +60,7 @@ export default function AuthProvider({ children }) {
       unsubscribe();
     };
   }, []);
-  const authInfo = { user, loading, googleSignIn,successfulToast,errorToast };
+  const authInfo = { user, loading, googleSignIn,successfulToast,errorToast,userLogOut };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
