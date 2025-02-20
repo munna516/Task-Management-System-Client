@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import TaskColumn from "../TaskColumn/TaskColumn";
 import AddTaskModal from "../AddTaskModal/AddTaskModal";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../Loading/Loading";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const TaskBoard = () => {
+  const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState({
     todo: [],
     inProgress: [],
@@ -20,7 +22,9 @@ const TaskBoard = () => {
   } = useQuery({
     queryKey: ["all-tasks"],
     queryFn: async () => {
-      const { data } = await axios.get(`${import.meta.env.VITE_API}/tasks`);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API}/tasks?email=${user?.email}`
+      );
       return data;
     },
   });
@@ -33,9 +37,7 @@ const TaskBoard = () => {
     };
 
     setTasks(groupedTasks);
-  }, [response]); 
-
-
+  }, [response]);
 
   const handleDragEnd = async (result) => {
     if (!result.destination) return; // If dropped outside, do nothing
@@ -88,14 +90,24 @@ const TaskBoard = () => {
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-          <TaskColumn title="To-Do" tasks={tasks.todo} refetch={refetch} id="todo" />
+          <TaskColumn
+            title="To-Do"
+            tasks={tasks.todo}
+            refetch={refetch}
+            id="todo"
+          />
           <TaskColumn
             title="In Progress"
             tasks={tasks.inProgress}
             id="inProgress"
             refetch={refetch}
           />
-          <TaskColumn title="Done" tasks={tasks.done} refetch={refetch} id="done" />
+          <TaskColumn
+            title="Done"
+            tasks={tasks.done}
+            refetch={refetch}
+            id="done"
+          />
         </div>
       </DragDropContext>
       {/* Add Task Modal */}

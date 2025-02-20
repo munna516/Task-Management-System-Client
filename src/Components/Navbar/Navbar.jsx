@@ -1,16 +1,15 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { userLogOut, successfulToast, user } = useContext(AuthContext);
+  const { userLogOut,errorToast, user } = useContext(AuthContext);
   const handleLogOut = () => {
     userLogOut()
       .then(() => {
-        successfulToast("Logout Successfull");
+        errorToast("Logout Successfull");
         navigate("/login");
       })
       .catch((error) => {
