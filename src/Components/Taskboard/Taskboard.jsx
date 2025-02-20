@@ -21,7 +21,6 @@ const TaskBoard = () => {
     queryKey: ["all-tasks"],
     queryFn: async () => {
       const { data } = await axios.get(`${import.meta.env.VITE_API}/tasks`);
-      console.log(data);
       return data;
     },
   });
@@ -89,13 +88,14 @@ const TaskBoard = () => {
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-          <TaskColumn title="To-Do" tasks={tasks.todo} id="todo" />
+          <TaskColumn title="To-Do" tasks={tasks.todo} refetch={refetch} id="todo" />
           <TaskColumn
             title="In Progress"
             tasks={tasks.inProgress}
             id="inProgress"
+            refetch={refetch}
           />
-          <TaskColumn title="Done" tasks={tasks.done} id="done" />
+          <TaskColumn title="Done" tasks={tasks.done} refetch={refetch} id="done" />
         </div>
       </DragDropContext>
       {/* Add Task Modal */}

@@ -2,7 +2,7 @@ import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import TaskCard from "../TaskCard/TaskCard";
 
-const TaskColumn = ({ title, tasks, id }) => {
+const TaskColumn = ({ title, tasks, id,refetch}) => {
   return (
     <div className="bg-slate-100 border border-primary-color bg-red p-4 rounded-md shadow-md mb-8">
       <h2 className="text-xl font-extrabold mb-4 text-primary-color">{title}</h2>
@@ -14,7 +14,7 @@ const TaskColumn = ({ title, tasks, id }) => {
             className="min-h-[300px]"
           >
             {tasks.map((task, index) => (
-              <TaskCard key={task._id} task={task} index={index} />
+              <TaskCard refetch={refetch} key={task._id} id={task._id} task={task} index={index} />
             ))}
             {provided.placeholder}
           </div>
