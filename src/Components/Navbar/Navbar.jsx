@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 
 export const Navbar = () => {
@@ -62,11 +62,7 @@ export const Navbar = () => {
             </ul>
           </div>
 
-          <img
-            className="w-14 bg-white rounded-3xl p-1"
-            src="/public/image/tasklogo.png"
-            alt=""
-          />
+          <Link to="/" className="font-extrabold text-xl md:text-3xl lg:text-4xl">TMS</Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
