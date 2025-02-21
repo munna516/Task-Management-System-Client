@@ -25,7 +25,7 @@ const TaskBoard = () => {
       const { data } = await axios.get(
         `${import.meta.env.VITE_API}/tasks?email=${user?.email}`
       );
-      return data;
+      return data.sort((a, b) => a.order - b.order);
     },
   });
 
@@ -80,9 +80,11 @@ const TaskBoard = () => {
         successfulToast(`${movedTask.title} is in ${category}`);
       }
       refetch();
-     
+
     }
   };
+
+
   if (isLoading) return <Loading></Loading>;
   return (
     <>
