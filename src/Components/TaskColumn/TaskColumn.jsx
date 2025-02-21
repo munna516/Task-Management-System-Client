@@ -4,7 +4,7 @@ import TaskCard from "../TaskCard/TaskCard";
 
 const TaskColumn = ({ title, tasks, id, refetch }) => {
   return (
-    <div className="bg-slate-100 border border-primary-color bg-red p-4 rounded-md shadow-md mb-8">
+    <div className="border border-primary-color bg-red p-4 rounded-md shadow-md mb-8">
       <h2
         className={`text-xl font-extrabold mb-4 ${
           title === "To-Do"
