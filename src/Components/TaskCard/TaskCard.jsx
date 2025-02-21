@@ -128,7 +128,7 @@ const TaskCard = ({ task, index, id, refetch }) => {
       </dialog>
 
       {/* Draggable Task Card */}
-      <Draggable draggableId={task._id} index={index}>
+      {/* <Draggable draggableId={task._id} index={index}>
         {(provided) => (
           <div
             ref={provided.innerRef}
@@ -145,19 +145,110 @@ const TaskCard = ({ task, index, id, refetch }) => {
               <div className="text-white text-sm">
                 {format(new Date(task.timestamp), "dd / MM / yyyy")}
               </div>
-              <div className="flex gap-2 text-xl">
+              <div
+                className={`text-sm font-bold  ${
+                  task.category === "todo"
+                    ? "text-white"
+                    : task.category === "inProgress"
+                    ? "text-yellow-500"
+                    : task.category === "done"
+                    ? "text-green-500"
+                    : ""
+                }`}
+              >
+                {task.category}
+              </div>
+              <div className="flex gap-2 text-sm">
                 <span
                   onClick={() => {
                     setSelectedTask(task); // Set the selected task
                     editModalRef.current.showModal(); // Open modal
                   }}
-                  className="text-black cursor-pointer"
+                  className="text-black cursor-pointer "
                 >
                   <FaEdit />
                 </span>
                 <span
                   onClick={() => handleDelete(id)}
                   className="text-red-600 cursor-pointer"
+                >
+                  <MdDelete />
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </Draggable> */}
+      <Draggable draggableId={task._id} index={index}>
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            className={`p-3 mb-2 rounded-md shadow-md space-y-2 ${
+              task.category === "todo"
+                ? "bg-primary-color"
+                : task.category === "inProgress"
+                ? "bg-yellow-500"
+                : task.category === "done"
+                ? "bg-green-500"
+                : ""
+            }`}
+          >
+            {/* <h3 className="font-bold text-white text-xl">{task.title}</h3>
+            <p className="text-sm text-white">{task.description}</p> */}
+            <h3
+              className={`font-bold text-xl ${
+                task.category === "inProgress" ? "text-black" : "text-white"
+              }`}
+            >
+              {task.title}
+            </h3>
+            <p
+              className={`text-sm ${
+                task.category === "inProgress" ? "text-black" : "text-white"
+              }`}
+            >
+              {task.description}
+            </p>
+
+            <div className="flex justify-between items-center">
+              {/* <div className="text-white text-sm">
+                {format(new Date(task.timestamp), "dd / MM / yyyy")}
+              </div> */}
+              <div
+                className={`text-sm ${
+                  task.category === "inProgress" ? "text-black" : "text-white"
+                }`}
+              >
+                {format(new Date(task.timestamp), "dd / MM / yyyy")}
+              </div>
+              <div
+                className={`bg-white px-2 py-1 rounded-2xl text-sm font-bold ${
+                  task.category === "todo"
+                    ? "text-primary-color"
+                    : task.category === "inProgress"
+                    ? "text-black"
+                    : task.category === "done"
+                    ? "text-green-500"
+                    : ""
+                }`}
+              >
+                {task.category}
+              </div>
+              <div className="flex gap-2 items-center">
+                <span
+                  onClick={() => {
+                    setSelectedTask(task); // Set the selected task
+                    editModalRef.current.showModal(); // Open modal
+                  }}
+                  className="text-black text-xl cursor-pointer"
+                >
+                  <FaEdit />
+                </span>
+                <span
+                  onClick={() => handleDelete(id)}
+                  className="text-red-600 text-xl cursor-pointer"
                 >
                   <MdDelete />
                 </span>
