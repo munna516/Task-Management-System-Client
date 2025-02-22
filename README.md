@@ -10,7 +10,7 @@
 
 ###
 
-<h4 align="left"></h4>
+<h4 align="left">https://task-management-system-62ec4.web.app</h4>
 
 ###
 
@@ -18,7 +18,7 @@
 
 ###
 
-<p align="left">●  Add Task<br>● Update Task<br>● Delete Task<br>● Drag and Drop .<br>● Reorder Task</p>
+<p align="left">●  Add Task<br>● Update Task<br>● Delete Task<br>● Drag and Drop task in Category.<br>● Reorder Task in Same Category</p>
 
 ###
 
@@ -26,7 +26,7 @@
 
 ###
 <h4 align="left">Frontend</h4>
-<p align="left">● HTML<br>● Tailwind CSS<br></p>
+<p align="left">● HTML<br>● Tailwind CSS<br>● React</p>
 <h4 align="left">Backend</h4>
 <p align="left">●  Node-Js<br>● Express-Js</p>
 <h4 align="left">Database</h4>
