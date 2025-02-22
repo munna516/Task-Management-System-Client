@@ -25,7 +25,9 @@ const TaskBoard = () => {
       const { data } = await axios.get(
         `${import.meta.env.VITE_API}/tasks?email=${user?.email}`
       );
-      return data;
+
+      // Sort tasks by position before returning
+      return data.sort((a, b) => a.position - b.position);
     },
   });
 
@@ -40,27 +42,40 @@ const TaskBoard = () => {
   }, [response]);
 
   const handleDragEnd = async (result) => {
-    if (!result.destination) return; // If dropped outside, do nothing
+    if (!result.destination) return;
 
     const { source, destination } = result;
 
-    // Reordering within the same category
     if (source.droppableId === destination.droppableId) {
+      // Reorder tasks within the same category
       const updatedTasks = [...tasks[source.droppableId]];
       const [movedTask] = updatedTasks.splice(source.index, 1);
       updatedTasks.splice(destination.index, 0, movedTask);
 
+      // Update state
       setTasks((prev) => ({
         ...prev,
         [source.droppableId]: updatedTasks,
       }));
+
+      // Update database with new order
+      const updatedTaskPositions = updatedTasks.map((task, index) => ({
+        _id: task._id,
+        position: index,
+      }));
+      console.log(updatedTaskPositions);
+      await axios.put(`${import.meta.env.VITE_API}/tasks/updateOrder`, {
+        tasks: updatedTaskPositions,
+      });
+
+      refetch();
     } else {
-      // Moving to a different category
+      // Moving to another category (this part remains the same)
       const sourceTasks = [...tasks[source.droppableId]];
       const destinationTasks = [...tasks[destination.droppableId]];
       const [movedTask] = sourceTasks.splice(source.index, 1);
 
-      movedTask.category = destination.droppableId; // Update category
+      movedTask.category = destination.droppableId;
 
       destinationTasks.splice(destination.index, 0, movedTask);
 
@@ -70,15 +85,10 @@ const TaskBoard = () => {
         [destination.droppableId]: destinationTasks,
       }));
 
-      const category = destination.droppableId;
-      const { data } = await axios.put(
-        `${import.meta.env.VITE_API}/tasks/${movedTask._id}`,
-        { category }
-      );
+      await axios.put(`${import.meta.env.VITE_API}/tasks/${movedTask._id}`, {
+        category: destination.droppableId,
+      });
 
-      if (data.modifiedCount) {
-        successfulToast(`${movedTask.title} is in ${category}`);
-      }
       refetch();
     }
   };
